@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\WorkoutLogController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,8 +22,35 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        $user = Auth::user();
+        
+        $totalDistance = round($user->workoutLogs()->sum('distance'), 1);
+        $completedRuns = $user->workoutLogs()->count();
+        $totalDuration = $user->workoutLogs()->sum('duration');
+        
+        if ($totalDistance > 0) {
+            $averagePaceRaw = $totalDuration / $totalDistance;
+            $paceMinutes = floor($averagePaceRaw);
+            $paceSeconds = round(($averagePaceRaw - $paceMinutes) * 60);
+            if ($paceSeconds == 60) {
+                $paceMinutes += 1;
+                $paceSeconds = 0;
+            }
+            $averagePace = sprintf("%d'%02d\"", $paceMinutes, $paceSeconds);
+        } else {
+            $averagePace = "0'00\"";
+        }
+        
+        $caloriesBurned = number_format($totalDuration * 8.5);
+        $recentLogs = $user->workoutLogs()
+            ->orderBy('workout_date', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->limit(5)
+            ->get();
+
+        return view('dashboard', compact('totalDistance', 'completedRuns', 'averagePace', 'caloriesBurned', 'recentLogs'));
     })->name('dashboard');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::resource('workout-logs', WorkoutLogController::class);
 });

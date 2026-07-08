@@ -29,4 +29,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /**
+     * Get the workout logs for the user.
+     */
+    public function workoutLogs()
+    {
+        return $this->hasMany(WorkoutLog::class);
+    }
 }
