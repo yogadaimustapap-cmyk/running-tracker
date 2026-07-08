@@ -257,17 +257,114 @@
             font-size: 0.95rem;
         }
 
-        /* Forecast Card & Grid */
-        .forecast-card {
+        /* New Forecast Side-by-Side Layout */
+        .forecast-layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* Left Panel: Summary */
+        .forecast-summary-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .forecast-summary-card {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            color: white;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(30, 58, 138, 0.15), 0 10px 10px -5px rgba(30, 58, 138, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .giant-icon {
+            font-size: 5rem;
+            display: block;
+            margin-bottom: 1rem;
+            line-height: 1;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+        }
+
+        .giant-temp {
+            font-size: 3.5rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-cond {
+            font-size: 1.25rem;
+            font-weight: 700;
+            opacity: 0.9;
+            margin-bottom: 0.25rem;
+        }
+
+        .summary-desc {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        /* Safety Recommendation Alert card */
+        .forecast-indicator-card {
             background-color: var(--card-bg);
             border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid #f1f5f9;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .forecast-indicator-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+        }
+
+        .forecast-indicator-card.safe-alert::before {
+            background-color: #10b981;
+        }
+
+        .forecast-indicator-card.unsafe-alert::before {
+            background-color: #ef4444;
+        }
+
+        .indicator-headline {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: var(--slate-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .indicator-subtext {
+            font-size: 0.85rem;
+            color: #475569;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+
+        /* Right Panel: Forecast Timeline */
+        .forecast-timeline-panel {
+            background-color: var(--card-bg);
+            border-radius: 24px;
             padding: 2.5rem;
             box-shadow: var(--shadow);
             border: 1px solid #f1f5f9;
         }
 
-        .forecast-title {
-            font-size: 1.25rem;
+        .timeline-headline {
+            font-size: 1.35rem;
             font-weight: 800;
             color: var(--slate-900);
             margin-bottom: 2rem;
@@ -275,58 +372,79 @@
             padding-bottom: 1rem;
         }
 
-        .forecast-timeline {
+        .forecast-timeline-list {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 1rem;
         }
 
-        .timeline-item {
+        .timeline-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1rem 1.5rem;
+            padding: 1.1rem 1.5rem;
             background-color: #f8fafc;
-            border-radius: 12px;
+            border-radius: 16px;
             border: 1px solid #f1f5f9;
             transition: var(--transition);
         }
 
-        .timeline-item:hover {
+        .timeline-row:hover {
             transform: translateX(5px);
-            background-color: #f1f5f9;
-            border-color: #cbd5e1;
+            background-color: #fafcff;
+            border-color: var(--primary-light);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.05);
         }
 
-        .timeline-time {
+        .row-time {
             font-weight: 700;
             font-size: 1.1rem;
             color: var(--slate-900);
             width: 80px;
         }
 
-        .timeline-condition {
+        .row-condition {
             display: flex;
             align-items: center;
             gap: 1rem;
-            flex-grow: 1;
-            margin-left: 2rem;
+            width: 180px;
         }
 
-        .timeline-icon {
+        .row-icon {
             font-size: 1.75rem;
         }
 
-        .timeline-text {
-            font-weight: 600;
+        .row-text {
+            font-weight: 700;
             font-size: 0.95rem;
             color: #475569;
         }
 
-        .timeline-temp {
+        .row-status-badge {
+            padding: 0.35rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-align: center;
+            width: 100px;
+        }
+
+        .row-status-badge.badge-green {
+            background-color: #ecfdf5;
+            color: #059669;
+        }
+
+        .row-status-badge.badge-red {
+            background-color: #fef2f2;
+            color: #dc2626;
+        }
+
+        .row-temp {
             font-weight: 800;
             font-size: 1.35rem;
             color: var(--primary);
+            width: 60px;
+            text-align: right;
         }
 
         /* Responsive Breakpoints */
@@ -373,21 +491,37 @@
                 width: 100%;
                 justify-content: center;
             }
-            .timeline-item {
-                padding: 0.8rem 1rem;
+            .forecast-layout {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
-            .timeline-time {
+            .timeline-row {
+                padding: 0.8rem 1rem;
+                gap: 0.5rem;
+            }
+            .row-time {
                 font-size: 0.95rem;
                 width: 60px;
             }
-            .timeline-condition {
-                margin-left: 1rem;
+            .row-condition {
+                width: auto;
+                flex-grow: 1;
+                gap: 0.5rem;
             }
-            .timeline-icon {
+            .row-icon {
                 font-size: 1.5rem;
             }
-            .timeline-temp {
+            .row-text {
+                font-size: 0.85rem;
+            }
+            .row-status-badge {
+                width: 80px;
+                font-size: 0.7rem;
+                padding: 0.25rem 0.5rem;
+            }
+            .row-temp {
                 font-size: 1.15rem;
+                width: auto;
             }
         }
     </style>
@@ -423,12 +557,7 @@
                         </svg>
                         Forecast
                     </a>
-                    <a href="#" class="menu-item">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                        </svg>
-                        Profile
-                    </a>
+
                     <a href="{{ route('weather.settings') }}" class="menu-item">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
@@ -475,20 +604,58 @@
                     </div>
                 </div>
 
-                <div class="forecast-card">
-                    <h3 class="forecast-title">Prakiraan Cuaca Hari Ini (Beberapa Jam ke Depan)</h3>
-                    
-                    <div class="forecast-timeline">
-                        @foreach($weather['forecast'] as $item)
-                            <div class="timeline-item">
-                                <div class="timeline-time">{{ $item['time'] }}</div>
-                                <div class="timeline-condition">
-                                    <span class="timeline-icon">{{ $item['icon'] }}</span>
-                                    <span class="timeline-text">{{ $item['condition'] }}</span>
+                <div class="forecast-layout">
+                    <!-- Left Panel: Summary Info -->
+                    <div class="forecast-summary-panel">
+                        <div class="forecast-summary-card">
+                            <span class="giant-icon">{{ $weather['icon'] }}</span>
+                            <h3 class="giant-temp">{{ $weather['temp'] }}°C</h3>
+                            <p class="summary-cond">{{ $weather['condition'] }}</p>
+                            <p class="summary-desc">{{ $weather['description'] }}</p>
+                        </div>
+
+                        <div class="forecast-indicator-card @if($weather['is_safe']) safe-alert @else unsafe-alert @endif">
+                            <h4 class="indicator-headline">
+                                @if($weather['is_safe'])
+                                    🟢 Rekomendasi: Aman untuk Lari
+                                @else
+                                    🔴 Rekomendasi: Hindari Lari
+                                @endif
+                            </h4>
+                            <p class="indicator-subtext">
+                                @if($weather['is_safe'])
+                                    Semua parameter cuaca ideal. Gunakan kesempatan ini untuk berlatih di luar ruangan!
+                                @else
+                                    Cuaca kurang bersahabat. Faktor penghalang: <strong>{{ implode(', ', $weather['reasons']) }}</strong>. Lebih disarankan berlatih secara indoor.
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Right Panel: Chronological Timeline -->
+                    <div class="forecast-timeline-panel">
+                        <h3 class="timeline-headline">Prakiraan Cuaca Per Jam</h3>
+                        <div class="forecast-timeline-list">
+                            @foreach($weather['forecast'] as $item)
+                                <div class="timeline-row">
+                                    <div class="row-time">{{ $item['time'] }}</div>
+                                    <div class="row-condition">
+                                        <span class="row-icon">{{ $item['icon'] }}</span>
+                                        <span class="row-text">{{ $item['condition'] }}</span>
+                                    </div>
+                                    
+                                    <div class="row-status-badge @if($item['condition'] === 'Hujan' || $item['condition'] === 'Badai' || $item['condition'] === 'Gerimis') badge-red @else badge-green @endif">
+                                        @if($item['condition'] === 'Hujan' || $item['condition'] === 'Badai' || $item['condition'] === 'Gerimis')
+                                            Indoor saja
+                                        @else
+                                            Bisa lari
+                                        @endif
+                                    </div>
+
+                                    <div class="row-temp">{{ $item['temp'] }}°C</div>
                                 </div>
-                                <div class="timeline-temp">{{ $item['temp'] }}°C</div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                 </div>
 
