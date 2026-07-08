@@ -468,6 +468,190 @@
             margin-top: 0.15rem;
         }
 
+        /* Weather Section Styling */
+        .weather-section {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .weather-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 1.75rem;
+            box-shadow: var(--shadow);
+            border: 1px solid #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .weather-main-info {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .weather-icon-large {
+            font-size: 3.5rem;
+            line-height: 1;
+        }
+
+        .weather-temp {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--slate-900);
+            line-height: 1;
+        }
+
+        .weather-cond {
+            font-weight: 700;
+            color: #475569;
+            margin-top: 0.25rem;
+            font-size: 1.1rem;
+        }
+
+        .weather-city {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-top: 0.15rem;
+        }
+
+        .weather-sub-details {
+            display: flex;
+            gap: 1.75rem;
+            margin-top: 1.5rem;
+            border-top: 1.5px solid #f1f5f9;
+            padding-top: 1rem;
+        }
+
+        .sub-detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sub-detail-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .sub-detail-val {
+            font-weight: 700;
+            color: var(--slate-900);
+            font-size: 1rem;
+            margin-top: 0.15rem;
+        }
+
+        /* Weather safety card */
+        .weather-indicator-card {
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 1.75rem;
+            box-shadow: var(--shadow);
+            border: 1px solid #f1f5f9;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .weather-indicator-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+        }
+
+        .weather-indicator-card.status-safe::before {
+            background-color: #10b981;
+        }
+
+        .weather-indicator-card.status-unsafe::before {
+            background-color: #ef4444;
+        }
+
+        .indicator-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .indicator-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--slate-900);
+        }
+
+        .indicator-desc {
+            font-size: 0.95rem;
+            color: #475569;
+            margin-top: 0.5rem;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .unsafe-reasons {
+            font-weight: 700;
+            color: #ef4444;
+        }
+
+        .best-hours-container {
+            margin-top: 1rem;
+        }
+
+        .best-hours-title {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .best-hours-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .hour-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f8fafc;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            border: 1px solid #f1f5f9;
+        }
+
+        .hour-time {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+
+        .hour-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .hour-item.hour-warning .hour-time {
+            color: #ef4444;
+        }
+
+        .hour-item.hour-warning .hour-label {
+            color: #b91c1c;
+        }
+
         /* Responsive Breakpoints */
         @media (max-width: 1024px) {
             .stats-grid {
@@ -523,6 +707,11 @@
             .dashboard-wrapper {
                 zoom: 1; /* Reset zoom on mobile for readable text sizes */
             }
+            .weather-section {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -539,7 +728,7 @@
         <!-- Sidebar Navigation (Light Mode) -->
         <aside class="sidebar">
             <div>
-                <a href="#" class="sidebar-brand">
+                <a href="{{ route('dashboard') }}" class="sidebar-brand">
                     <div class="brand-logo">R</div>
                     <span class="brand-name">RunningTracker</span>
                 </a>
@@ -559,12 +748,12 @@
                         </svg>
                         Activity Log
                     </a>
-                    <a href="#" class="menu-item">
-                        <!-- Analytics Icon -->
+                    <a href="{{ route('weather.forecast') }}" class="menu-item">
+                        <!-- Forecast Icon -->
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"></path>
                         </svg>
-                        Analytics
+                        Forecast
                     </a>
                     <a href="#" class="menu-item">
                         <!-- Profile/User Icon -->
@@ -573,7 +762,7 @@
                         </svg>
                         Profile
                     </a>
-                    <a href="#" class="menu-item">
+                    <a href="{{ route('weather.settings') }}" class="menu-item">
                         <!-- Settings Icon -->
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
@@ -617,6 +806,76 @@
                     <h2 class="welcome-title">Welcome back, <span>{{ explode(' ', Auth::user()->name)[0] }}</span>!</h2>
                     <p class="welcome-desc">Here is your activity overview for this week. Keep up the good work!</p>
                 </div>
+
+                @if(session('success_weather'))
+                    <div class="alert-success-weather" style="background-color: #f0fdf4; border: 1.5px solid #bbf7d0; color: #15803d; padding: 1rem 1.25rem; border-radius: 12px; margin-bottom: 2rem; font-weight: 600; font-size: 0.95rem; display: flex; align-items: center; gap: 0.75rem;">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        {{ session('success_weather') }}
+                    </div>
+                @endif
+
+                <!-- Weather Dashboard Widget (Mhs 2) -->
+                <section class="weather-section">
+                    <!-- Left: Current Weather Details -->
+                    <div class="weather-card">
+                        <div class="weather-main-info">
+                            <span class="weather-icon-large">{{ $weather['icon'] }}</span>
+                            <div>
+                                <h3 class="weather-temp">{{ $weather['temp'] }}°C</h3>
+                                <p class="weather-cond">{{ $weather['condition'] }}</p>
+                                <p class="weather-city">📍 {{ $weather['city'] }}</p>
+                            </div>
+                        </div>
+                        <div class="weather-sub-details">
+                            <div class="sub-detail-item">
+                                <span class="sub-detail-label">Humidity</span>
+                                <span class="sub-detail-val">{{ $weather['humidity'] }}%</span>
+                            </div>
+                            <div class="sub-detail-item">
+                                <span class="sub-detail-label">Wind</span>
+                                <span class="sub-detail-val">{{ $weather['wind'] }} km/j</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Safety Indicator & Recommended Hours -->
+                    <div class="weather-indicator-card @if($weather['is_safe']) status-safe @else status-unsafe @endif">
+                        <div>
+                            <div class="indicator-header">
+                                <h3 class="indicator-title">
+                                    @if($weather['is_safe'])
+                                        🟢 Aman untuk Lari
+                                    @else
+                                        🔴 Cuaca Buruk
+                                    @endif
+                                </h3>
+                            </div>
+                            
+                            <p class="indicator-desc">
+                                @if($weather['is_safe'])
+                                    Kondisi luar ruangan sangat mendukung untuk latihan hari ini. Selamat berolahraga!
+                                @else
+                                    Sebaiknya olahraga indoor saja. Halangan:
+                                    <span class="unsafe-reasons">{{ implode(', ', $weather['reasons']) }}</span>.
+                                @endif
+                            </p>
+                        </div>
+
+                        <div class="best-hours-container">
+                            <h4 class="best-hours-title">Jam Terbaik Lari:</h4>
+                            <div class="best-hours-list">
+                                @foreach($weather['best_hours'] as $hour)
+                                    <div class="hour-item @if($hour['warning'] ?? false) hour-warning @endif">
+                                        <span class="hour-time">{{ $hour['time'] }}</span>
+                                        <span class="hour-label">{{ $hour['label'] }}</span>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
                 <!-- Stats Overview Cards -->
                 <section class="stats-grid">
