@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - RunningTracker</title>
+    <title>Masuk - RunningTracker</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -397,12 +397,12 @@
             </div>
             
             <div class="cover-content">
-                <h1 class="cover-title">Elevate Your <span>Running Journey</span>.</h1>
-                <p class="cover-description">Track real-time stats, design customized running plans, and share milestones with a vibrant, active community.</p>
+                <h1 class="cover-title">Tingkatkan <span>Perjalanan Lari Anda</span>.</h1>
+                <p class="cover-description">Pantau statistik secara real-time, buat rencana lari kustom, dan bagikan pencapaian Anda.</p>
             </div>
             
             <div class="cover-footer">
-                &copy; 2026 RunningTracker Inc. All rights reserved.
+                &copy; 2026 RunningTracker Inc. Hak cipta dilindungi undang-undang.
             </div>
         </div>
 
@@ -410,16 +410,16 @@
         <div class="form-section">
             <div class="form-container">
                 <div class="form-header">
-                    <h2 class="form-title">Welcome back</h2>
-                    <p class="form-subtitle">Please enter your details to sign in</p>
+                    <h2 class="form-title">Selamat datang kembali</h2>
+                    <p class="form-subtitle">Silakan masukkan kredensial Anda untuk masuk</p>
                 </div>
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
                     
                     <div class="form-group">
-                        <label for="email" class="form-label">Email address</label>
+                        <label for="email" class="form-label">Alamat Email</label>
                         <div class="input-wrapper">
-                            <input type="email" id="email" name="email" class="form-input" placeholder="name@domain.com" value="{{ old('email') }}" required autocomplete="email">
+                            <input type="email" id="email" name="email" class="form-input" placeholder="nama@domain.com" value="{{ old('email') }}" required autocomplete="email">
                             <!-- SVG Mail Icon -->
                             <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
@@ -431,7 +431,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password" class="form-label">Password</label>
+                        <label for="password" class="form-label">Kata Sandi</label>
                         <div class="input-wrapper">
                             <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required>
                             <!-- SVG Lock Icon -->
@@ -447,18 +447,18 @@
                     <div class="form-actions">
                         <label class="remember-me">
                             <input type="checkbox" name="remember" class="remember-checkbox">
-                            Remember me
+                            Ingat saya
                         </label>
-                        <a href="#" class="forgot-link">Forgot password?</a>
+                        <a href="#" class="forgot-link">Lupa kata sandi?</a>
                     </div>
 
                     <button type="submit" class="btn-submit">
-                        Sign In
+                        Masuk
                     </button>
                 </form>
 
                 <div class="auth-redirect">
-                    Don't have an account? <a href="{{ route('register') }}">Sign up for free</a>
+                    Belum punya akun? <a href="{{ route('register') }}">Daftar gratis</a>
                 </div>
             </div>
         </div>

@@ -14,8 +14,8 @@ class AuthViewsTest extends TestCase
         $response = $this->get('/login');
 
         $response->assertStatus(200);
-        $response->assertSee('Login - RunningTracker');
-        $response->assertSee('Welcome back');
+        $response->assertSee('Masuk - RunningTracker');
+        $response->assertSee('Selamat datang kembali');
     }
 
     /**
@@ -26,7 +26,7 @@ class AuthViewsTest extends TestCase
         $response = $this->get('/register');
 
         $response->assertStatus(200);
-        $response->assertSee('Register - RunningTracker');
-        $response->assertSee('Create account');
+        $response->assertSee('Daftar - RunningTracker');
+        $response->assertSee('Daftar akun');
     }
 }

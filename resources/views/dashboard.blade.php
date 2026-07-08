@@ -746,14 +746,14 @@
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5H19M19 5V11M19 5L11 13L9 11L5 15"></path>
                         </svg>
-                        Activity Log
+                        Log Aktivitas
                     </a>
                     <a href="{{ route('weather.forecast') }}" class="menu-item">
                         <!-- Forecast Icon -->
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"></path>
                         </svg>
-                        Forecast
+                        Prakiraan Cuaca
                     </a>
 
                     <a href="{{ route('weather.settings') }}" class="menu-item">
@@ -762,7 +762,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg>
-                        Settings
+                        Pengaturan
                     </a>
                 </nav>
             </div>
@@ -772,7 +772,7 @@
                     <div class="avatar">{{ substr(Auth::user()->name, 0, 1) }}</div>
                     <div class="user-details">
                         <span class="username">{{ Auth::user()->name }}</span>
-                        <span class="userrole">Runner Member</span>
+                        <span class="userrole">Anggota Pelari</span>
                     </div>
                 </div>
                 
@@ -797,8 +797,8 @@
                 
                 <!-- Welcome Header -->
                 <div class="welcome-header">
-                    <h2 class="welcome-title">Welcome back, <span>{{ explode(' ', Auth::user()->name)[0] }}</span>!</h2>
-                    <p class="welcome-desc">Here is your activity overview for this week. Keep up the good work!</p>
+                    <h2 class="welcome-title">Selamat datang kembali, <span>{{ explode(' ', Auth::user()->name)[0] }}</span>!</h2>
+                    <p class="welcome-desc">Berikut ringkasan aktivitas Anda minggu ini. Pertahankan performa Anda!</p>
                 </div>
 
                 @if(session('success_weather'))
@@ -824,11 +824,11 @@
                         </div>
                         <div class="weather-sub-details">
                             <div class="sub-detail-item">
-                                <span class="sub-detail-label">Humidity</span>
+                                <span class="sub-detail-label">Kelembapan</span>
                                 <span class="sub-detail-val">{{ $weather['humidity'] }}%</span>
                             </div>
                             <div class="sub-detail-item">
-                                <span class="sub-detail-label">Wind</span>
+                                <span class="sub-detail-label">Angin</span>
                                 <span class="sub-detail-val">{{ $weather['wind'] }} km/j</span>
                             </div>
                         </div>
@@ -881,7 +881,7 @@
                         </div>
                         <div class="stat-info">
                             <span class="stat-value">{{ $totalDistance }} km</span>
-                            <span class="stat-label">Total Distance</span>
+                            <span class="stat-label">Total Jarak</span>
                         </div>
                     </div>
 
@@ -893,7 +893,7 @@
                         </div>
                         <div class="stat-info">
                             <span class="stat-value">{{ $completedRuns }}</span>
-                            <span class="stat-label">Completed Runs</span>
+                            <span class="stat-label">Latihan Selesai</span>
                         </div>
                     </div>
 
@@ -905,7 +905,7 @@
                         </div>
                         <div class="stat-info">
                             <span class="stat-value">{{ $averagePace }}</span>
-                            <span class="stat-label">Average Pace /km</span>
+                            <span class="stat-label">Pace Rata-rata /km</span>
                         </div>
                     </div>
 
@@ -918,7 +918,7 @@
                         </div>
                         <div class="stat-info">
                             <span class="stat-value">{{ $caloriesBurned }} kcal</span>
-                            <span class="stat-label">Calories Burned</span>
+                            <span class="stat-label">Kalori Terbakar</span>
                         </div>
                     </div>
                 </section>
@@ -929,12 +929,12 @@
                     <!-- Left Panel: Weekly Performance Chart -->
                     <div class="section-card">
                         <div class="section-header">
-                            <h3 class="section-title">Weekly Activity Analysis</h3>
+                            <h3 class="section-title">Analisis Aktivitas Mingguan</h3>
                             <button class="btn-action" onclick="window.location.href='{{ route('workout-logs.create') }}'">
                                 <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                                 </svg>
-                                Record New Run
+                                Catat Latihan Baru
                             </button>
                         </div>
                         
@@ -942,15 +942,15 @@
                             <svg class="chart-icon" width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"></path>
                             </svg>
-                            <p style="font-weight: 600;">Activity chart visualization is ready</p>
-                            <p style="font-size: 0.8rem;">Data tracking will update automatically as runs are recorded.</p>
+                            <p style="font-weight: 600;">Visualisasi grafik aktivitas siap</p>
+                            <p style="font-size: 0.8rem;">Pelacakan data akan diperbarui secara otomatis saat latihan dicatat.</p>
                         </div>
                     </div>
 
                     <!-- Right Panel: Recent Activity -->
                     <div class="section-card">
                         <div class="section-header">
-                            <h3 class="section-title">Recent Running History</h3>
+                            <h3 class="section-title">Riwayat Latihan Terbaru</h3>
                         </div>
                         
                         <div class="runs-list">

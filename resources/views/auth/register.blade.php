@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - RunningTracker</title>
+    <title>Daftar - RunningTracker</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -398,12 +398,12 @@
             </div>
             
             <div class="cover-content">
-                <h1 class="cover-title">Start Your <span>Healthy Lifestyle</span>.</h1>
-                <p class="cover-description">Monitor your fitness progress, trace runs with visual maps, and achieve your daily, weekly, and monthly activity goals.</p>
+                <h1 class="cover-title">Mulai <span>Gaya Hidup Sehat Anda</span>.</h1>
+                <p class="cover-description">Pantau progres kebugaran Anda, lacak sesi lari Anda, dan capai target harian, mingguan, serta bulanan Anda.</p>
             </div>
             
             <div class="cover-footer">
-                &copy; 2026 RunningTracker Inc. All rights reserved.
+                &copy; 2026 RunningTracker Inc. Hak cipta dilindungi undang-undang.
             </div>
         </div>
 
@@ -411,14 +411,14 @@
         <div class="form-section">
             <div class="form-container">
                 <div class="form-header">
-                    <h2 class="form-title">Create account</h2>
-                    <p class="form-subtitle">Enter your details to register a new account</p>
+                    <h2 class="form-title">Daftar akun</h2>
+                    <p class="form-subtitle">Masukkan data Anda untuk mendaftarkan akun baru</p>
                 </div>
                 <form method="POST" action="{{ route('register') }}">
                     @csrf
                     
                     <div class="form-group">
-                        <label for="name" class="form-label">Full Name</label>
+                        <label for="name" class="form-label">Nama Lengkap</label>
                         <div class="input-wrapper">
                             <input type="text" id="name" name="name" class="form-input" placeholder="John Doe" value="{{ old('name') }}" required autocomplete="name">
                             <!-- SVG User Icon -->
@@ -432,9 +432,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="email" class="form-label">Email address</label>
+                        <label for="email" class="form-label">Alamat Email</label>
                         <div class="input-wrapper">
-                            <input type="email" id="email" name="email" class="form-input" placeholder="name@domain.com" value="{{ old('email') }}" required autocomplete="email">
+                            <input type="email" id="email" name="email" class="form-input" placeholder="nama@domain.com" value="{{ old('email') }}" required autocomplete="email">
                             <!-- SVG Mail Icon -->
                             <svg class="input-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207"></path>
@@ -446,7 +446,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password" class="form-label">Password</label>
+                        <label for="password" class="form-label">Kata Sandi</label>
                         <div class="input-wrapper">
                             <input type="password" id="password" name="password" class="form-input" placeholder="••••••••" required>
                             <!-- SVG Lock Icon -->
@@ -460,7 +460,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password_confirmation" class="form-label">Confirm Password</label>
+                        <label for="password_confirmation" class="form-label">Konfirmasi Kata Sandi</label>
                         <div class="input-wrapper">
                             <input type="password" id="password_confirmation" name="password_confirmation" class="form-input" placeholder="••••••••" required>
                             <!-- SVG Double Check Icon / Lock Icon -->
@@ -473,17 +473,17 @@
                     <div class="form-actions">
                         <label class="terms-conditions">
                             <input type="checkbox" name="terms" class="remember-checkbox" required>
-                            <span>I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a></span>
+                            <span>Saya menyetujui <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a></span>
                         </label>
                     </div>
 
                     <button type="submit" class="btn-submit">
-                        Create Account
+                        Daftar Akun
                     </button>
                 </form>
 
                 <div class="auth-redirect">
-                    Already have an account? <a href="{{ route('login') }}">Sign in</a>
+                    Sudah punya akun? <a href="{{ route('login') }}">Masuk</a>
                 </div>
             </div>
         </div>

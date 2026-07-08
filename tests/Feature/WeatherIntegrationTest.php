@@ -32,8 +32,8 @@ class WeatherIntegrationTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('Malang');
-        $response->assertSee('Humidity');
-        $response->assertSee('Wind');
+        $response->assertSee('Kelembapan');
+        $response->assertSee('Angin');
         $response->assertSee('Jam Terbaik Lari');
     }
 
