@@ -308,6 +308,26 @@
             box-shadow: 0 6px 15px rgba(37, 99, 235, 0.35);
         }
 
+        .btn-reset {
+            display: inline-block;
+            background-color: transparent;
+            border: 1.5px solid var(--primary);
+            color: var(--primary);
+            padding: 0.73rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .btn-reset:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
         /* Responsive Breakpoints */
         @media (max-width: 768px) {
             .dashboard-container {
@@ -429,16 +449,39 @@
                         @csrf
                         
                         <div class="form-group">
-                            <label for="city" class="form-label">Kota Pemantauan Cuaca</label>
-                            <input type="text" id="city" name="city" class="form-input" placeholder="Masukkan nama kota, misal: Malang, Jakarta, Surabaya" value="{{ old('city', $city) }}" required>
-                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">Data cuaca saat ini dan prakiraan cuaca akan disesuaikan berdasarkan kota yang Anda tentukan di sini.</p>
+                            <label for="city" class="form-label">
+                                Kota Pemantauan Cuaca
+                                @if($isAuto)
+                                    <span style="font-size: 0.75rem; font-weight: 700; color: #10b981; background-color: #ecfdf5; padding: 0.25rem 0.6rem; border-radius: 50px; margin-left: 0.5rem; display: inline-block;">
+                                        🟢 Deteksi Otomatis Aktif
+                                    </span>
+                                @else
+                                    <span style="font-size: 0.75rem; font-weight: 700; color: #f59e0b; background-color: #fffbeb; padding: 0.25rem 0.6rem; border-radius: 50px; margin-left: 0.5rem; display: inline-block;">
+                                        ⚠️ Kustomisasi Manual Aktif
+                                    </span>
+                                @endif
+                            </label>
+                            
+                            <input type="text" id="city" name="city" class="form-input" placeholder="Masukkan nama kota, misal: Malang, Jakarta, Surabaya" value="{{ old('city', $isAuto ? '' : $city) }}" required>
+                            
+                            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem;">
+                                @if($isAuto)
+                                    Saat ini cuaca dideteksi otomatis berdasarkan lokasi GPS browser Anda. Memasukkan kota di atas akan menimpa deteksi otomatis.
+                                @else
+                                    Anda telah mengunci pemantauan cuaca ke kota <strong>{{ $city }}</strong>. Deteksi otomatis dinonaktifkan.
+                                @endif
+                            </p>
+                            
                             @error('city')
                                 <div class="error-message">{{ $message }}</div>
                             @enderror
                         </div>
 
-                        <div class="form-actions">
+                        <div class="form-actions" style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
                             <button type="submit" class="btn-submit">Simpan Pengaturan</button>
+                            @if(!$isAuto)
+                                <a href="{{ route('weather.settings.reset') }}" class="btn-reset">Kembali ke Deteksi Otomatis</a>
+                            @endif
                         </div>
 
                     </form>

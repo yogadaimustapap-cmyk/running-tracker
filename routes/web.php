@@ -49,8 +49,17 @@ Route::middleware('auth')->group(function () {
             ->limit(5)
             ->get();
 
-        $city = session('city', env('DEFAULT_CITY', 'Malang'));
-        $weather = $weatherService->getWeatherData($city);
+        $city = session('city');
+        $lat = session('lat');
+        $lon = session('lon');
+
+        if ($city) {
+            $weather = $weatherService->getWeatherData($city);
+        } elseif ($lat !== null && $lon !== null) {
+            $weather = $weatherService->getWeatherData(null, $lat, $lon);
+        } else {
+            $weather = $weatherService->getWeatherData(env('DEFAULT_CITY', 'Malang'));
+        }
 
         return view('dashboard', compact('totalDistance', 'completedRuns', 'averagePace', 'caloriesBurned', 'recentLogs', 'weather'));
     })->name('dashboard');
@@ -62,4 +71,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/forecast', [WeatherController::class, 'forecast'])->name('weather.forecast');
     Route::get('/weather-settings', [WeatherController::class, 'settings'])->name('weather.settings');
     Route::post('/weather-settings', [WeatherController::class, 'updateCity'])->name('weather.settings.update');
+    Route::get('/weather-settings/reset', [WeatherController::class, 'resetLocation'])->name('weather.settings.reset');
+    Route::get('/update-location', [WeatherController::class, 'updateLocation'])->name('weather.location.update');
 });

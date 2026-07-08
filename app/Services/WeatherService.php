@@ -19,46 +19,53 @@ class WeatherService
     /**
      * Get weather data (current + forecast + recommendation) for a city.
      */
-    public function getWeatherData(string $city = null): array
+    public function getWeatherData(string $city = null, float $lat = null, float $lon = null): array
     {
         $city = $city ?: $this->defaultCity;
 
         if (empty($this->apiKey)) {
-            return $this->getMockWeatherData($city);
+            return $this->getMockWeatherData($city, $lat, $lon);
         }
 
         try {
-            // Fetch Current Weather
             $currentUrl = "https://api.openweathermap.org/data/2.5/weather";
-            $currentResponse = Http::get($currentUrl, [
-                'q' => $city,
+            $forecastUrl = "https://api.openweathermap.org/data/2.5/forecast";
+
+            $queryParams = [
                 'appid' => $this->apiKey,
                 'units' => 'metric',
                 'lang' => 'id',
-            ]);
+            ];
+
+            if ($lat !== null && $lon !== null) {
+                $queryParams['lat'] = $lat;
+                $queryParams['lon'] = $lon;
+            } else {
+                $queryParams['q'] = $city;
+            }
+
+            // Fetch Current Weather
+            $currentResponse = Http::get($currentUrl, $queryParams);
 
             // Fetch Forecast (5 days/3 hours)
-            $forecastUrl = "https://api.openweathermap.org/data/2.5/forecast";
-            $forecastResponse = Http::get($forecastUrl, [
-                'q' => $city,
-                'appid' => $this->apiKey,
-                'units' => 'metric',
-                'lang' => 'id',
-            ]);
+            $forecastResponse = Http::get($forecastUrl, $queryParams);
 
             if ($currentResponse->successful() && $forecastResponse->successful()) {
                 $currentData = $currentResponse->json();
                 $forecastData = $forecastResponse->json();
+                
+                // Dynamically resolve city name from coordinates response if queried by coords
+                $resolvedCity = $currentData['name'] ?? $city;
 
-                return $this->parseApiResponse($city, $currentData, $forecastData);
+                return $this->parseApiResponse($resolvedCity, $currentData, $forecastData);
             }
 
-            Log::warning("OpenWeatherMap API request failed for {$city}, falling back to mock data.");
-            return $this->getMockWeatherData($city);
+            Log::warning("OpenWeatherMap API request failed, falling back to mock data.");
+            return $this->getMockWeatherData($city, $lat, $lon);
 
         } catch (\Exception $e) {
             Log::error("Error fetching weather data from OpenWeatherMap: " . $e->getMessage());
-            return $this->getMockWeatherData($city);
+            return $this->getMockWeatherData($city, $lat, $lon);
         }
     }
 
@@ -244,10 +251,22 @@ class WeatherService
     /**
      * Generate realistic mock data for local fallback.
      */
-    public function getMockWeatherData(string $city): array
+    public function getMockWeatherData(string $city, float $lat = null, float $lon = null): array
     {
+        $resolvedCity = $city;
+        if ($lat !== null && $lon !== null) {
+            // Map coordinates to deterministic simulated cities for mock consistency
+            if (abs($lat - (-7.98)) < 0.5 && abs($lon - 112.63) < 0.5) {
+                $resolvedCity = 'Malang';
+            } elseif (abs($lat - (-6.20)) < 0.5 && abs($lon - 106.84) < 0.5) {
+                $resolvedCity = 'Jakarta';
+            } else {
+                $resolvedCity = 'Lokasi Anda';
+            }
+        }
+
         // Seed based on city name string to keep mock consistent per city
-        $cityHash = crc32(strtolower($city));
+        $cityHash = crc32(strtolower($resolvedCity));
         
         // Determinstic mock data
         $temps = [24, 25, 27, 28, 31, 22];
@@ -312,5 +331,28 @@ class WeatherService
             'best_hours' => $recommendations,
             'forecast' => $hourlyList,
         ];
+    }
+
+    /**
+     * Check if a city is valid by querying OpenWeatherMap.
+     */
+    public function isValidCity(string $city): bool
+    {
+        if (empty($this->apiKey)) {
+            // Allow random testing if API key is not configured locally
+            return true;
+        }
+
+        try {
+            $response = Http::get("https://api.openweathermap.org/data/2.5/weather", [
+                'q' => $city,
+                'appid' => $this->apiKey,
+            ]);
+
+            return $response->successful();
+        } catch (\Exception $e) {
+            // Graceful fallback to true on network issues
+            return true;
+        }
     }
 }

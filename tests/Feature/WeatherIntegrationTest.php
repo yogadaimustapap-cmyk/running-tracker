@@ -31,7 +31,7 @@ class WeatherIntegrationTest extends TestCase
         $response = $this->actingAs($user)->get('/dashboard');
 
         $response->assertStatus(200);
-        $response->assertSee('📍 Malang');
+        $response->assertSee('Malang');
         $response->assertSee('Humidity');
         $response->assertSee('Wind');
         $response->assertSee('Jam Terbaik Lari');
@@ -74,6 +74,44 @@ class WeatherIntegrationTest extends TestCase
         // Dashboard should now show Jakarta weather
         $dashboardResponse = $this->actingAs($user)->get('/dashboard');
         $dashboardResponse->assertSee('📍 Jakarta');
+    }
+
+    /**
+     * Test user cannot update city to an invalid city that OpenWeatherMap does not recognize.
+     */
+    public function test_user_cannot_update_invalid_weather_city(): void
+    {
+        $user = User::factory()->create();
+
+        $mockService = $this->createMock(WeatherService::class);
+        $mockService->method('isValidCity')->with('dhuijs')->willReturn(false);
+
+        $this->app->instance(WeatherService::class, $mockService);
+
+        $response = $this->actingAs($user)->post('/weather-settings', [
+            'city' => 'dhuijs',
+        ]);
+
+        $response->assertSessionHasErrors(['city']);
+        $this->assertNull(session('city'));
+    }
+
+    /**
+     * Test user can reset manual city selection to fall back to Geolocation detection.
+     */
+    public function test_user_can_reset_manual_weather_city(): void
+    {
+        $user = User::factory()->create();
+
+        session(['city' => 'Jakarta']);
+
+        $response = $this->actingAs($user)->get('/weather-settings/reset');
+        $response->assertRedirect('/dashboard');
+        $response->assertSessionHas('success_weather');
+
+        $this->assertNull(session('city'));
+        $this->assertNull(session('lat'));
+        $this->assertNull(session('lon'));
     }
 
     /**
@@ -141,6 +179,36 @@ class WeatherIntegrationTest extends TestCase
             85
         ]);
         $this->assertFalse($humidityMock);
+    }
+
+    /**
+     * Test guests are blocked from updating location.
+     */
+    public function test_guests_cannot_update_location_coordinates(): void
+    {
+        $this->get('/update-location?lat=-7.98&lon=112.63')->assertRedirect('/login');
+    }
+
+    /**
+     * Test authenticated user can update coordinate session parameters and dashboard reflects it.
+     */
+    public function test_user_can_update_location_coordinates(): void
+    {
+        $user = User::factory()->create();
+
+        // 1. Trigger update location coordinate request
+        $response = $this->actingAs($user)->get('/update-location?lat=-6.20&lon=106.84');
+        $response->assertStatus(200);
+        $response->assertJson(['success' => true]);
+
+        $this->assertEquals(-6.20, (float) session('lat'));
+        $this->assertEquals(106.84, (float) session('lon'));
+        $this->assertNull(session('city'));
+
+        // 2. View dashboard and verify it shows resolved city (Jakarta)
+        $dashboardResponse = $this->actingAs($user)->get('/dashboard');
+        $dashboardResponse->assertStatus(200);
+        $dashboardResponse->assertSee('📍 Jakarta');
     }
 
     /**

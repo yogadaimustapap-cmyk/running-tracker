@@ -990,5 +990,33 @@
         
     </div>
 
+    <!-- Geolocation Script (Mhs 2) -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (navigator.geolocation) {
+                const sessionLat = "{{ session('lat') }}";
+                const sessionLon = "{{ session('lon') }}";
+                const sessionCity = "{{ session('city') }}";
+                
+                if (!sessionCity && (!sessionLat || !sessionLon)) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        
+                        fetch(`/update-location?lat=${lat}&lon=${lon}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    window.location.reload();
+                                }
+                            })
+                            .catch(err => console.error("Error setting coordinates: ", err));
+                    }, function(error) {
+                        console.warn("Geolocation prompt failed or blocked: ", error);
+                    });
+                }
+            }
+        });
+    </script>
 </body>
 </html>
